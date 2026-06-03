@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import settings
-from app.routers import auth, consultation, kms, reports
+from app.routers import auth, consultation, kms, reports, catalog
 
 app = FastAPI(
     title="Sistema de Gestión de Consultas",
@@ -21,6 +21,7 @@ app.include_router(auth.router)
 app.include_router(consultation.router)
 app.include_router(kms.router)
 app.include_router(reports.router)
+app.include_router(catalog.router)
 
 
 @app.get("/health", tags=["health"])

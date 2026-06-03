@@ -37,6 +37,8 @@ export default function RegistrarUsuario() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm px-6 py-4 flex items-center gap-4">
+        <img src="/logo.png" alt="Logo" className="h-8" />
+        <span className="text-sm font-semibold text-gray-600">Universidad San Martin de Porres</span>
         <Link to="/admin" className="text-blue-600 hover:underline text-sm">← Volver</Link>
         <h1 className="text-lg font-bold text-blue-700">Registrar Usuario</h1>
       </nav>

@@ -24,11 +24,11 @@ def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(bearer)
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Token inválido")
 
     db = get_supabase()
-    result = db.table("users").select("*").eq("id", user_id).single().execute()
+    result = db.table("users").select("*").eq("id", user_id).execute()
     if not result.data:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Usuario no encontrado")
 
-    return result.data
+    return result.data[0]
 
 
 def require_role(*roles: str):

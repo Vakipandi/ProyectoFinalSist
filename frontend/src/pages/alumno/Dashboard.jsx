@@ -4,8 +4,9 @@ import { getMyConsultations } from '../../api/consultations'
 import { useAuth } from '../../context/AuthContext'
 
 const STATUS_COLOR = {
-  pendiente: 'bg-yellow-100 text-yellow-800',
-  en_proceso: 'bg-blue-100 text-blue-800',
+  registrado: 'bg-gray-100 text-gray-800',
+  derivado: 'bg-purple-100 text-purple-800',
+  en_revision: 'bg-blue-100 text-blue-800',
   resuelto: 'bg-green-100 text-green-800',
 }
 
@@ -19,13 +20,17 @@ export default function AlumnoDashboard() {
   }, [])
 
   const total = consultas.length
-  const pendientes = consultas.filter((c) => c.status === 'pendiente').length
+  const pendientes = consultas.filter((c) => c.status === 'registrado' || c.status === 'derivado').length
   const resueltas = consultas.filter((c) => c.status === 'resuelto').length
 
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm px-6 py-4 flex justify-between items-center">
-        <h1 className="text-lg font-bold text-blue-700">Sistema de Consultas</h1>
+        <div className="flex items-center gap-3">
+          <img src="/logo.png" alt="Logo" className="h-8" />
+          <span className="text-sm font-semibold text-gray-600">Universidad San Martin de Porres</span>
+          <h1 className="text-lg font-bold text-blue-700">Sistema de Consultas</h1>
+        </div>
         <div className="flex items-center gap-4">
           <span className="text-sm text-gray-600">{user?.full_name}</span>
           <button onClick={() => { logout(); navigate('/login') }} className="text-sm text-red-500 hover:underline">
@@ -55,6 +60,9 @@ export default function AlumnoDashboard() {
         <div className="flex gap-4 mb-8">
           <Link to="/alumno/nueva" className="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition">
             + Nueva consulta
+          </Link>
+          <Link to="/alumno/catalogo" className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2 rounded-lg text-sm font-medium transition">
+            Catálogo de servicios
           </Link>
           <Link to="/alumno/consultas" className="bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 px-5 py-2 rounded-lg text-sm font-medium transition">
             Ver mis consultas

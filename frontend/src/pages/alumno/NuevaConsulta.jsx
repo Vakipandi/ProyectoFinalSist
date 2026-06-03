@@ -3,7 +3,7 @@ import { useNavigate, Link } from 'react-router-dom'
 import { createConsultation } from '../../api/consultations'
 import { searchArticles } from '../../api/kms'
 
-const CATEGORIES = ['academico', 'financiero', 'infraestructura', 'sistemas']
+const CATEGORIES = ['academico', 'financiero', 'infraestructura', 'sistemas', 'matricula', 'tramites', 'otro']
 
 export default function NuevaConsulta() {
   const navigate = useNavigate()
@@ -43,11 +43,21 @@ export default function NuevaConsulta() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm px-6 py-4 flex items-center gap-4">
+        <img src="/logo.png" alt="Logo" className="h-8" />
+        <span className="text-sm font-semibold text-gray-600">Universidad San Martin de Porres</span>
         <Link to="/alumno" className="text-blue-600 hover:underline text-sm">← Volver</Link>
         <h1 className="text-lg font-bold text-blue-700">Nueva Consulta</h1>
       </nav>
 
       <div className="max-w-2xl mx-auto px-6 py-8">
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+          <p className="text-sm text-amber-800">
+            <strong>¿Buscas información rápida?</strong> Consulta primero el{' '}
+            <Link to="/alumno/catalogo" className="underline font-semibold">Catálogo de Servicios</Link>.
+            Si encuentras lo que necesitas, no hace falta enviar una consulta.
+          </p>
+        </div>
+
         {suggestions.length > 0 && (
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-4 mb-6">
             <p className="text-sm font-semibold text-blue-700 mb-3">💡 Encontramos respuestas relacionadas:</p>

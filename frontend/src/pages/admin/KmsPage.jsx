@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getArticles, createArticle, searchArticles } from '../../api/kms'
 
-const CATEGORIES = ['academico', 'financiero', 'infraestructura', 'sistemas']
+const CATEGORIES = ['academico', 'financiero', 'infraestructura', 'sistemas', 'matricula', 'tramites']
 
 export default function KmsPage() {
   const [articles, setArticles] = useState([])
@@ -43,6 +43,8 @@ export default function KmsPage() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm px-6 py-4 flex items-center gap-4">
+        <img src="/logo.png" alt="Logo" className="h-8" />
+        <span className="text-sm font-semibold text-gray-600">Universidad San Martin de Porres</span>
         <Link to="/admin" className="text-blue-600 hover:underline text-sm">← Volver</Link>
         <h1 className="text-lg font-bold text-blue-700">Base de Conocimientos</h1>
       </nav>
@@ -107,7 +109,7 @@ export default function KmsPage() {
                 <div className="mt-3 pt-3 border-t">
                   <p className="text-sm text-gray-600 mb-2">{a.content}</p>
                   <div className="flex flex-wrap gap-1">
-                    {a.keywords.map((k) => (
+                    {(a.keywords || []).map((k) => (
                       <span key={k} className="text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-full">{k}</span>
                     ))}
                   </div>

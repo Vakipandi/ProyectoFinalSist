@@ -4,13 +4,13 @@ from datetime import datetime
 
 
 class ConsultationCreate(BaseModel):
-    category: Literal["academico", "financiero", "infraestructura", "sistemas"]
+    category: Literal["academico", "financiero", "infraestructura", "sistemas", "matricula", "tramites", "otro"]
     title: str
     description: str
 
 
 class StatusUpdate(BaseModel):
-    status: Literal["pendiente", "en_proceso", "resuelto"]
+    status: Literal["registrado", "derivado", "en_revision", "resuelto"]
     comment: str | None = None
 
 
@@ -28,6 +28,7 @@ class ConsultationResponse(BaseModel):
     priority: str
     status: str
     assigned_to: str | None
+    assigned_area: str | None
     response: str | None
     created_at: datetime
     updated_at: datetime

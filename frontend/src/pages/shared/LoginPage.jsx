@@ -27,9 +27,17 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
-        <h1 className="text-2xl font-bold text-gray-800 mb-2">Sistema de Consultas</h1>
+    <div
+      className="min-h-screen bg-cover bg-center relative flex items-center justify-center"
+      style={{ backgroundImage: "url('/bg.png')" }}
+    >
+      <div className="absolute inset-0 bg-black/40" />
+      <div className="relative bg-white/95 backdrop-blur-sm p-8 rounded-2xl shadow-2xl w-full max-w-md z-10">
+        <div className="text-center mb-6">
+          <img src="/logo.png" alt="Logo Universidad" className="h-16 mx-auto mb-3" />
+          <h1 className="text-xl font-bold text-gray-800">Universidad San Martin de Porres</h1>
+        </div>
+        <h2 className="text-lg font-semibold text-gray-800 mb-2">Sistema de Consultas</h2>
         <p className="text-gray-500 text-sm mb-6">Ingresa con tu cuenta universitaria</p>
 
         <form onSubmit={handleSubmit} className="space-y-4">

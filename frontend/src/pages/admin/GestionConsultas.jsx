@@ -4,8 +4,9 @@ import { getAllConsultations, updateStatus, updateResponse, getHistory } from '.
 import { createArticle } from '../../api/kms'
 
 const STATUS_COLOR = {
-  pendiente: 'bg-yellow-100 text-yellow-800',
-  en_proceso: 'bg-blue-100 text-blue-800',
+  registrado: 'bg-gray-100 text-gray-800',
+  derivado: 'bg-purple-100 text-purple-800',
+  en_revision: 'bg-blue-100 text-blue-800',
   resuelto: 'bg-green-100 text-green-800',
 }
 
@@ -83,6 +84,8 @@ export default function GestionConsultas() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm px-6 py-4 flex items-center gap-4">
+        <img src="/logo.png" alt="Logo" className="h-8" />
+        <span className="text-sm font-semibold text-gray-600">Universidad San Martin de Porres</span>
         <Link to="/admin" className="text-blue-600 hover:underline text-sm">← Volver</Link>
         <h1 className="text-lg font-bold text-blue-700">Gestión de Consultas</h1>
       </nav>
@@ -90,7 +93,7 @@ export default function GestionConsultas() {
       <div className="max-w-6xl mx-auto px-6 py-8 grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <div className="flex gap-2 mb-4">
-            {['todos', 'pendiente', 'en_proceso', 'resuelto'].map((s) => (
+            {['todos', 'registrado', 'derivado', 'en_revision', 'resuelto'].map((s) => (
               <button
                 key={s}
                 onClick={() => setFilter(s)}
@@ -141,8 +144,9 @@ export default function GestionConsultas() {
                 onChange={(e) => setNewStatus(e.target.value)}
                 className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-2"
               >
-                <option value="pendiente">pendiente</option>
-                <option value="en_proceso">en_proceso</option>
+                <option value="registrado">registrado</option>
+                <option value="derivado">derivado</option>
+                <option value="en_revision">en_revision</option>
                 <option value="resuelto">resuelto</option>
               </select>
               <input

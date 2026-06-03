@@ -10,6 +10,7 @@ import GestionConsultas from './pages/admin/GestionConsultas'
 import Reportes from './pages/admin/Reportes'
 import KmsPage from './pages/admin/KmsPage'
 import RegistrarUsuario from './pages/admin/RegistrarUsuario'
+import CatalogoServicios from './pages/alumno/CatalogoServicios'
 
 function ProtectedRoute({ children, roles }) {
   const { user, loading } = useAuth()
@@ -33,6 +34,7 @@ function AppRoutes() {
       <Route path="/alumno" element={<ProtectedRoute roles={['alumno']}><AlumnoDashboard /></ProtectedRoute>} />
       <Route path="/alumno/nueva" element={<ProtectedRoute roles={['alumno']}><NuevaConsulta /></ProtectedRoute>} />
       <Route path="/alumno/consultas" element={<ProtectedRoute roles={['alumno']}><MisConsultas /></ProtectedRoute>} />
+      <Route path="/alumno/catalogo" element={<ProtectedRoute roles={['alumno']}><CatalogoServicios /></ProtectedRoute>} />
 
       <Route path="/admin" element={<ProtectedRoute roles={['secretaria', 'admin']}><AdminDashboard /></ProtectedRoute>} />
       <Route path="/admin/consultas" element={<ProtectedRoute roles={['secretaria', 'admin']}><GestionConsultas /></ProtectedRoute>} />

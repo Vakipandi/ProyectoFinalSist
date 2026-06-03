@@ -1,5 +1,6 @@
 import random
 import string
+from datetime import datetime, timezone
 from fastapi import HTTPException, status
 from app.database import get_supabase
 from app.schemas.consultation import ConsultationCreate
@@ -12,6 +13,16 @@ KEYWORDS_MEDIA = [
     "problema", "falla", "demora", "pendiente", "solicitud", "revisión",
     "actualizar", "cambio", "modificar", "consulta"
 ]
+
+AREA_MAP = {
+    "sistemas": "Área de Sistemas",
+    "academico": "Registro Académico",
+    "matricula": "Registro Académico",
+    "tramites": "Registro Académico",
+    "financiero": "Finanzas",
+    "infraestructura": "Infraestructura",
+    "otro": "Secretaría General",
+}
 
 
 def _infer_priority(text: str) -> str:
@@ -36,6 +47,7 @@ def create_consultation(data: ConsultationCreate, user_id: str) -> dict:
         code = _generate_code()
 
     priority = _infer_priority(f"{data.title} {data.description}")
+    assigned_area = AREA_MAP.get(data.category, "Secretaría General")
 
     result = db.table("consultations").insert({
         "code": code,
@@ -44,10 +56,34 @@ def create_consultation(data: ConsultationCreate, user_id: str) -> dict:
         "title": data.title,
         "description": data.description,
         "priority": priority,
-        "status": "pendiente",
+        "status": "registrado",
+        "assigned_area": assigned_area,
     }).execute()
 
-    return result.data[0]
+    consultation = result.data[0]
+
+    db.table("status_history").insert({
+        "consultation_id": consultation["id"],
+        "changed_by": user_id,
+        "old_status": None,
+        "new_status": "registrado",
+        "comment": f"Consulta registrada y derivada a {assigned_area}",
+    }).execute()
+
+    db.table("consultations").update({
+        "status": "derivado",
+    }).eq("id", consultation["id"]).execute()
+
+    db.table("status_history").insert({
+        "consultation_id": consultation["id"],
+        "changed_by": user_id,
+        "old_status": "registrado",
+        "new_status": "derivado",
+        "comment": f"Derivado automáticamente a {assigned_area}",
+    }).execute()
+
+    final = db.table("consultations").select("*").eq("id", consultation["id"]).execute()
+    return final.data[0]
 
 
 def get_all_consultations() -> list:
@@ -84,7 +120,7 @@ def update_status(code: str, new_status: str, staff_id: str, comment: str | None
 
     updated = db.table("consultations").update({
         "status": new_status,
-        "updated_at": "now()",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
     }).eq("code", code).execute()
 
     db.table("status_history").insert({
@@ -110,7 +146,7 @@ def update_response(code: str, response_text: str, staff_id: str) -> dict:
     updated = db.table("consultations").update({
         "response": response_text,
         "status": "resuelto",
-        "updated_at": "now()",
+        "updated_at": datetime.now(timezone.utc).isoformat(),
     }).eq("code", code).execute()
 
     db.table("status_history").insert({

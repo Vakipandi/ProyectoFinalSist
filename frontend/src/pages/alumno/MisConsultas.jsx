@@ -3,8 +3,9 @@ import { Link } from 'react-router-dom'
 import { getMyConsultations, getHistory } from '../../api/consultations'
 
 const STATUS_COLOR = {
-  pendiente: 'bg-yellow-100 text-yellow-800',
-  en_proceso: 'bg-blue-100 text-blue-800',
+  registrado: 'bg-gray-100 text-gray-800',
+  derivado: 'bg-purple-100 text-purple-800',
+  en_revision: 'bg-blue-100 text-blue-800',
   resuelto: 'bg-green-100 text-green-800',
 }
 
@@ -32,6 +33,8 @@ export default function MisConsultas() {
   return (
     <div className="min-h-screen bg-gray-50">
       <nav className="bg-white shadow-sm px-6 py-4 flex items-center gap-4">
+        <img src="/logo.png" alt="Logo" className="h-8" />
+        <span className="text-sm font-semibold text-gray-600">Universidad San Martin de Porres</span>
         <Link to="/alumno" className="text-blue-600 hover:underline text-sm">← Volver</Link>
         <h1 className="text-lg font-bold text-blue-700">Mis Consultas</h1>
       </nav>
